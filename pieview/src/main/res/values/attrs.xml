@@ -13,8 +13,17 @@
         <attr name="pie_end_angle" format="integer"/>
         <attr name="pie_space_in_out" format="integer"/>
         <attr name="pie_center_radius" format="integer"/>
-        <attr name="pie_title_text" format="reference"/>
+        <attr name="pie_title_text" format="reference|string"/>
+        <attr name="pie_title_text_size" format="integer"/>
+        <attr name="pie_title_text_color" format="reference"/>
 
+        <attr name="pie_subtitle_text" format="reference|string"/>
+        <attr name="pie_subtitle_text_size" format="integer"/>
+        <attr name="pie_subtitle_text_color" format="reference"/>
+
+        <attr name="pie_bottomTitle_text" format="reference|string"/>
+        <attr name="pie_bottomTitle_text_size" format="integer"/>
+        <attr name="pie_bottomTitle_text_color" format="reference"/>
     </declare-styleable>
 
 

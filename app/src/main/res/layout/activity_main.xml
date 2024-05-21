@@ -11,6 +11,9 @@
         android:id="@+id/pieView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:pie_title_text="km/h"
+        app:pie_subtitle_text="rpm"
+        app:pie_bottomTitle_text="bar"
         android:layout_width="match_parent"
         android:layout_height="500dp"/>
 

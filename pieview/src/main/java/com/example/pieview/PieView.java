@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -84,6 +85,17 @@ public class PieView extends View {
     // 定义标题画笔
     private Paint titlePaint;
     private int titleColor;
+    private int titleSize;
+    // 子标题
+    private Paint subTitlePaint;
+    private String subTitle;
+    private int subTitleSize;
+    private int subTitleColor;
+    // 底部标题
+    private Paint bottomTitlePaint;
+    private String bottomTitle;
+    private int bottomTitleSize;
+    private int bottomTitleColor;
 
     private List<String> workList = new ArrayList<>();
 
@@ -115,15 +127,31 @@ public class PieView extends View {
         outLevel1Color = typedArray.getColor(R.styleable.PieView_color_pie_out_level1_paint, ContextCompat.getColor(getContext(), R.color.color_pie_out_level1_paint));
         outLevel2Color = typedArray.getColor(R.styleable.PieView_color_pie_out_level2_paint, ContextCompat.getColor(getContext(), R.color.color_pie_out_level2_paint));
         inPaintColor = typedArray.getColor(R.styleable.PieView_color_pie_in_paint, ContextCompat.getColor(getContext(), R.color.color_pie_in_paint));
-        titleColor = typedArray.getColor(R.styleable.PieView_color_pie_title_paint, ContextCompat.getColor(getContext(), R.color.color_pie_title_paint));
         pointColor = typedArray.getColor(R.styleable.PieView_color_pie_point_paint, ContextCompat.getColor(getContext(), R.color.color_pie_point_paint));
         startAngle = typedArray.getInt(R.styleable.PieView_pie_start_angle, DEFAULT_START_ANGLE);
         endAngle = typedArray.getInt(R.styleable.PieView_pie_end_angle, DEFAULT_END_ANGLE);
         spaceInOut = typedArray.getInt(R.styleable.PieView_pie_space_in_out, DEFAULT_SPACE_IN_OUT);
         centerRadius = typedArray.getInt(R.styleable.PieView_pie_center_radius, DEFAULT_CENTER_RADIUS);
+        // 主标题
         title = typedArray.getString(R.styleable.PieView_pie_title_text);
+        titleSize = typedArray.getInt(R.styleable.PieView_pie_title_text_size, 24);
+        titleColor = typedArray.getColor(R.styleable.PieView_color_pie_title_paint, ContextCompat.getColor(getContext(), R.color.color_pie_title_paint));
+        // 副标题
+        subTitle = typedArray.getString(R.styleable.PieView_pie_subtitle_text);
+        subTitleSize = typedArray.getInt(R.styleable.PieView_pie_subtitle_text_size, 24);
+        subTitleColor = typedArray.getColor(R.styleable.PieView_pie_subtitle_text_color, ContextCompat.getColor(getContext(), R.color.color_pie_title_paint));
+        // 底部标题
+        bottomTitle = typedArray.getString(R.styleable.PieView_pie_bottomTitle_text);
+        bottomTitleSize = typedArray.getInt(R.styleable.PieView_pie_bottomTitle_text_size, 24);
+        bottomTitleColor = typedArray.getColor(R.styleable.PieView_pie_bottomTitle_text_color, ContextCompat.getColor(getContext(), R.color.color_pie_title_paint));
         if (title == null) {
-            title = "km/h";
+            title = "";
+        }
+        if (subTitle == null) {
+            subTitle = "";
+        }
+        if (bottomTitle == null) {
+            bottomTitle = "";
         }
         typedArray.recycle();
         initPaint();
@@ -193,10 +221,25 @@ public class PieView extends View {
         // 标题画笔
         titlePaint = new Paint();
         titlePaint.setAntiAlias(true);
-        titlePaint.setTextSize(24);
+        titlePaint.setTextSize(titleSize);
         titlePaint.setColor(titleColor);
         titlePaint.setTextAlign(Paint.Align.LEFT);
         titlePaint.setStyle(Paint.Style.STROKE);
+
+        subTitlePaint = new Paint();
+        subTitlePaint.setAntiAlias(true);
+        subTitlePaint.setTextSize(subTitleSize);
+        subTitlePaint.setColor(subTitleColor);
+        subTitlePaint.setTextAlign(Paint.Align.LEFT);
+        subTitlePaint.setStyle(Paint.Style.STROKE);
+
+
+        bottomTitlePaint = new Paint();
+        bottomTitlePaint.setAntiAlias(true);
+        bottomTitlePaint.setTextSize(bottomTitleSize);
+        bottomTitlePaint.setColor(bottomTitleColor);
+        bottomTitlePaint.setTextAlign(Paint.Align.LEFT);
+        bottomTitlePaint.setStyle(Paint.Style.STROKE);
     }
 
 
@@ -222,6 +265,8 @@ public class PieView extends View {
         drawOutCircle(canvas);
         // 画标题
         drawTitle(canvas);
+        drawSubTitle(canvas);
+        drawBottomTitle(canvas);
         // 画指针
         drawPoint(canvas);
         // 画内圆
@@ -305,8 +350,30 @@ public class PieView extends View {
     }
 
     private void drawTitle(Canvas canvas) {
-        float textLength = wordPaint.measureText(title);
-        canvas.drawText(title, -(textLength) / 2, -mRadius / 2, wordPaint);
+        if (TextUtils.isEmpty(title)) {
+            return;
+        }
+        float textLength = titlePaint.measureText(title);
+        canvas.drawText(title, -(textLength) / 2, -mRadius / 2, titlePaint);
+
+    }
+    private void drawSubTitle(Canvas canvas) {
+        if (TextUtils.isEmpty(subTitle)) {
+            return;
+        }
+        float textLength = subTitlePaint.measureText(subTitle);
+        Rect rect = new Rect();
+        subTitlePaint.getTextBounds(subTitle, 0, subTitle.length(), rect);
+        int height = rect.height();
+        canvas.drawText(subTitle, -(textLength) / 2, -mRadius / 2 + height + dp2px(2), subTitlePaint);
+    }
+
+    private void drawBottomTitle(Canvas canvas) {
+        if (TextUtils.isEmpty(bottomTitle)) {
+            return;
+        }
+        float textLength = bottomTitlePaint.measureText(bottomTitle);
+        canvas.drawText(bottomTitle, -(textLength) / 2, mRadius/2, bottomTitlePaint);
     }
 
     private void drawOutCircle(Canvas canvas) {
