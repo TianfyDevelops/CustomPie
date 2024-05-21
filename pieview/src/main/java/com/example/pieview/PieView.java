@@ -45,6 +45,11 @@ public class PieView extends View {
     private final static int DEFAULT_CENTER_RADIUS = 40;
     // 中心圆半径
     private int centerRadius;
+    // 外圈宽度
+    private int outPieWidth;
+    // 指针弧度
+    private int pointSweepAngle;
+
     // 标题文字内容
     private String title;
 
@@ -122,16 +127,30 @@ public class PieView extends View {
 
         // 获取自定义属性
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.PieView);
+        // 刻度文字颜色
         wordPainColor = typedArray.getColor(R.styleable.PieView_color_pie_word_paint, ContextCompat.getColor(getContext(), R.color.color_black));
+        // 外圈颜色
         outPaintColor = typedArray.getColor(R.styleable.PieView_color_pie_out_paint, ContextCompat.getColor(getContext(), R.color.color_pie_out_paint));
+        // 外圈level1颜色
         outLevel1Color = typedArray.getColor(R.styleable.PieView_color_pie_out_level1_paint, ContextCompat.getColor(getContext(), R.color.color_pie_out_level1_paint));
+        // 外圈level2颜色
         outLevel2Color = typedArray.getColor(R.styleable.PieView_color_pie_out_level2_paint, ContextCompat.getColor(getContext(), R.color.color_pie_out_level2_paint));
+        // 内圈颜色
         inPaintColor = typedArray.getColor(R.styleable.PieView_color_pie_in_paint, ContextCompat.getColor(getContext(), R.color.color_pie_in_paint));
+        // 指针颜色
         pointColor = typedArray.getColor(R.styleable.PieView_color_pie_point_paint, ContextCompat.getColor(getContext(), R.color.color_pie_point_paint));
+        // 开始角度
         startAngle = typedArray.getInt(R.styleable.PieView_pie_start_angle, DEFAULT_START_ANGLE);
+        // 结束角度
         endAngle = typedArray.getInt(R.styleable.PieView_pie_end_angle, DEFAULT_END_ANGLE);
+        // 内圈刻度距离外圈的间距
         spaceInOut = typedArray.getInt(R.styleable.PieView_pie_space_in_out, DEFAULT_SPACE_IN_OUT);
+        // 中心圆半径
         centerRadius = typedArray.getInt(R.styleable.PieView_pie_center_radius, DEFAULT_CENTER_RADIUS);
+        // 外圈宽度
+        outPieWidth = typedArray.getInt(R.styleable.PieView_pie_out_stroke_width, 10);
+        // 指针弧度
+        pointSweepAngle = typedArray.getInt(R.styleable.PieView_pie_point_sweep_angle, 20);
         // 主标题
         title = typedArray.getString(R.styleable.PieView_pie_title_text);
         titleSize = typedArray.getInt(R.styleable.PieView_pie_title_text_size, 24);
@@ -199,19 +218,19 @@ public class PieView extends View {
         outPaint.setAntiAlias(true);
         outPaint.setColor(outPaintColor);
         outPaint.setStyle(Paint.Style.STROKE);
-        outPaint.setStrokeWidth(10);
+        outPaint.setStrokeWidth(outPieWidth);
         // 外圈画笔level1
         outLevel1Paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         outLevel1Paint.setColor(outLevel1Color);
         outLevel1Paint.setAntiAlias(true);
         outLevel1Paint.setStyle(Paint.Style.STROKE);
-        outLevel1Paint.setStrokeWidth(10);
+        outLevel1Paint.setStrokeWidth(outPieWidth);
         // 外圈画笔level2
         outLevel2Paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         outLevel2Paint.setColor(outLevel2Color);
         outLevel2Paint.setAntiAlias(true);
         outLevel2Paint.setStyle(Paint.Style.STROKE);
-        outLevel2Paint.setStrokeWidth(10);
+        outLevel2Paint.setStrokeWidth(outPieWidth);
         // 指针画笔
         pointPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         pointPaint.setColor(pointColor);
@@ -312,7 +331,7 @@ public class PieView extends View {
         // 求出指针的开始角度
         float pointStartAngle = (data * ratio) + startAngle;
 
-        path.addArc(rectF1, pointStartAngle, 30);
+        path.addArc(rectF1, pointStartAngle, pointSweepAngle);
 
         /**
          * 算出指针的弧度
@@ -332,14 +351,14 @@ public class PieView extends View {
         /**
          * B点坐标
          */
-        pointB[0] = (float) (Math.cos(angle + Math.toRadians(30)) * centerRadius);
-        pointB[1] = (float) (Math.sin(angle + Math.toRadians(30)) * centerRadius);
+        pointB[0] = (float) (Math.cos(angle + Math.toRadians(pointSweepAngle)) * centerRadius);
+        pointB[1] = (float) (Math.sin(angle + Math.toRadians(pointSweepAngle)) * centerRadius);
 
         /**
          * D点坐标
          */
-        pointD[0] = (float) (Math.cos(angle - Math.toRadians(30)) * centerRadius);
-        pointD[1] = (float) (Math.sin(angle - Math.toRadians(30)) * centerRadius);
+        pointD[0] = (float) (Math.cos(angle - Math.toRadians(pointSweepAngle)) * centerRadius);
+        pointD[1] = (float) (Math.sin(angle - Math.toRadians(pointSweepAngle)) * centerRadius);
 
 
         path.lineTo(pointB[0], pointB[1]);
