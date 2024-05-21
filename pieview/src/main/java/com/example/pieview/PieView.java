@@ -102,6 +102,8 @@ public class PieView extends View {
     private int bottomTitleSize;
     private int bottomTitleColor;
 
+    private int wordSize;
+
     private List<String> workList = new ArrayList<>();
 
     public PieView(Context context) {
@@ -129,6 +131,8 @@ public class PieView extends View {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.PieView);
         // 刻度文字颜色
         wordPainColor = typedArray.getColor(R.styleable.PieView_color_pie_word_paint, ContextCompat.getColor(getContext(), R.color.color_black));
+        wordSize = typedArray.getInt(R.styleable.PieView_pie_word_text_size, 24);
+
         // 外圈颜色
         outPaintColor = typedArray.getColor(R.styleable.PieView_color_pie_out_paint, ContextCompat.getColor(getContext(), R.color.color_pie_out_paint));
         // 外圈level1颜色
@@ -208,7 +212,7 @@ public class PieView extends View {
         // 刻度文字画笔
         wordPaint = new Paint();
         wordPaint.setAntiAlias(true);
-        wordPaint.setTextSize(24);
+        wordPaint.setTextSize(wordSize);
         wordPaint.setColor(wordPainColor);
         wordPaint.setTextAlign(Paint.Align.LEFT);
         wordPaint.setStyle(Paint.Style.STROKE);
@@ -286,12 +290,13 @@ public class PieView extends View {
         drawTitle(canvas);
         drawSubTitle(canvas);
         drawBottomTitle(canvas);
+        // 画刻度文字
+        drawWordText(canvas);
         // 画指针
         drawPoint(canvas);
         // 画内圆
         drawInCircle(canvas);
-        // 画刻度文字
-        drawWordText(canvas);
+
 
     }
 

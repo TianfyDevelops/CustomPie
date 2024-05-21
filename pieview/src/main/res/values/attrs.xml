@@ -15,6 +15,7 @@
         <attr name="pie_center_radius" format="integer"/>
         <attr name="pie_out_stroke_width" format="integer"/>
         <attr name="pie_point_sweep_angle" format="integer"/>
+        <attr name="pie_word_text_size" format="integer"/>
 
 
 
