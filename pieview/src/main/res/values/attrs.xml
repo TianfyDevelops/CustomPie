@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="PieView">
+        <attr name="color_pie_word_paint" format="reference"/>
+        <attr name="color_pie_out_paint" format="reference"/>
+        <attr name="color_pie_out_level1_paint" format="reference"/>
+        <attr name="color_pie_out_level2_paint" format="reference"/>
+        <attr name="color_pie_in_paint" format="reference"/>
+        <attr name="color_pie_title_paint" format="reference"/>
+        <attr name="color_pie_point_paint" format="reference"/>
+        <attr name="pie_start_angle" format="integer"/>
+        <attr name="pie_end_angle" format="integer"/>
+        <attr name="pie_space_in_out" format="integer"/>
+        <attr name="pie_center_radius" format="integer"/>
+        <attr name="pie_title_text" format="reference"/>
+
+    </declare-styleable>
+
+
+
+
+</resources>
