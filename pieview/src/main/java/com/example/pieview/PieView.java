@@ -104,7 +104,7 @@ public class PieView extends View {
 
     private int wordSize;
 
-    private List<String> workList = new ArrayList<>();
+    private List<Integer> workList = new ArrayList<>();
 
     public PieView(Context context) {
         this(context, null);
@@ -118,13 +118,13 @@ public class PieView extends View {
         super(context, attrs, defStyleAttr);
 
         if (workList.isEmpty()) {
-            workList.add("0");
-            workList.add("5");
-            workList.add("10");
-            workList.add("15");
-            workList.add("20");
-            workList.add("25");
-            workList.add("30");
+            workList.add(-30);
+            workList.add(-20);
+            workList.add(-10);
+            workList.add(0);
+            workList.add(10);
+            workList.add(20);
+            workList.add(30);
         }
 
         // 获取自定义属性
@@ -180,7 +180,7 @@ public class PieView extends View {
         initPaint();
     }
 
-    public void setWordList(List<String> wordList) {
+    public void setWordList(List<Integer> wordList) {
         this.workList = wordList;
         invalidate();
     }
@@ -306,7 +306,7 @@ public class PieView extends View {
         Rect rect = new Rect();
         Path mTextPath = new Path();
         for (int i = 0; i < workList.size(); i++) {
-            String text = workList.get(i);
+            String text = workList.get(i).toString();
             wordPaint.getTextBounds(text, 0, text.length(), rect);
             float startAngle = this.startAngle + ((float) endAngle / (workList.size() - 1)) * i;
             float sweepAngle = (float) endAngle / (workList.size() - 1);
@@ -331,10 +331,17 @@ public class PieView extends View {
         RectF rectF1 = new RectF(-centerRadius, -centerRadius, centerRadius, centerRadius);
 
         // 获取最大值和最大角度的换算关系 比值
-        int maxValue = Integer.parseInt(workList.get(workList.size() - 1));
-        int ratio = (endAngle / maxValue);
+        // 最大值
+        int maxValue = workList.get(workList.size() - 1);
+        // 最小值
+        int minValue = workList.get(0);
+        // 差值
+        int distanceValue = maxValue - minValue;
+        int ratio = (endAngle / distanceValue);
+        // 求偏移量
+        int move = startAngle - (ratio * minValue);
         // 求出指针的开始角度
-        float pointStartAngle = (data * ratio) + startAngle;
+        float pointStartAngle = (data * ratio) + move;
 
         path.addArc(rectF1, pointStartAngle, pointSweepAngle);
 
@@ -381,6 +388,7 @@ public class PieView extends View {
         canvas.drawText(title, -(textLength) / 2, -mRadius / 2, titlePaint);
 
     }
+
     private void drawSubTitle(Canvas canvas) {
         if (TextUtils.isEmpty(subTitle)) {
             return;
@@ -397,7 +405,7 @@ public class PieView extends View {
             return;
         }
         float textLength = bottomTitlePaint.measureText(bottomTitle);
-        canvas.drawText(bottomTitle, -(textLength) / 2, mRadius/2, bottomTitlePaint);
+        canvas.drawText(bottomTitle, -(textLength) / 2, mRadius / 2, bottomTitlePaint);
     }
 
     private void drawOutCircle(Canvas canvas) {

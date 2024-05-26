@@ -14,6 +14,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val pieView = findViewById<PieView>(R.id.pieView)
-        pieView.setCurrentData(20)
+        pieView.setCurrentData(-10)
     }
 }
