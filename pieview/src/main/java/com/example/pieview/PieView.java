@@ -37,7 +37,7 @@ public class PieView extends View {
 
     // 默认开始角度
     private final static int DEFAULT_START_ANGLE = 135;
-    // 模式结束角度
+    // 默认结束角度
     private final static int DEFAULT_END_ANGLE = 270;
     // 默认内圈刻度距离外圈的间距
     private final static int DEFAULT_SPACE_IN_OUT = 40;
@@ -404,7 +404,8 @@ public class PieView extends View {
         // 每个数据的间隔角度值
         int interval = endAngle / (workList.size() - 1);
         // 绘制外圈
-        canvas.drawArc(rectF, startAngle, startAngle + endAngle - interval * 3, false, outPaint);
+        int sweepAngle = endAngle - interval * 2;
+        canvas.drawArc(rectF, startAngle, sweepAngle, false, outPaint);
         // 绘制外圈leve1
         canvas.drawArc(rectF, startAngle + endAngle - interval * 2, interval, false, outLevel1Paint);
         // 绘制外圈leve2
