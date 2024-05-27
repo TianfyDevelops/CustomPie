@@ -215,7 +215,7 @@ public class PieView extends View {
         wordPaint.setTextSize(wordSize);
         wordPaint.setColor(wordPainColor);
         wordPaint.setTextAlign(Paint.Align.LEFT);
-        wordPaint.setStyle(Paint.Style.STROKE);
+        wordPaint.setStyle(Paint.Style.FILL);
 
         // 外圈画笔
         outPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -247,14 +247,14 @@ public class PieView extends View {
         titlePaint.setTextSize(titleSize);
         titlePaint.setColor(titleColor);
         titlePaint.setTextAlign(Paint.Align.LEFT);
-        titlePaint.setStyle(Paint.Style.STROKE);
+        titlePaint.setStyle(Paint.Style.FILL);
 
         subTitlePaint = new Paint();
         subTitlePaint.setAntiAlias(true);
         subTitlePaint.setTextSize(subTitleSize);
         subTitlePaint.setColor(subTitleColor);
         subTitlePaint.setTextAlign(Paint.Align.LEFT);
-        subTitlePaint.setStyle(Paint.Style.STROKE);
+        subTitlePaint.setStyle(Paint.Style.FILL);
 
 
         bottomTitlePaint = new Paint();
@@ -262,7 +262,7 @@ public class PieView extends View {
         bottomTitlePaint.setTextSize(bottomTitleSize);
         bottomTitlePaint.setColor(bottomTitleColor);
         bottomTitlePaint.setTextAlign(Paint.Align.LEFT);
-        bottomTitlePaint.setStyle(Paint.Style.STROKE);
+        bottomTitlePaint.setStyle(Paint.Style.FILL);
     }
 
 
